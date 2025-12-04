@@ -22,7 +22,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("http://localhost:3000/categories")
+    fetch("/categories")
       .then(res => res.json())
       .then(data => {
         const allOption = { id: 'all', name: 'Kaikki tuotteet' };
@@ -35,7 +35,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("http://localhost:3000/products")
+    fetch("/products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -122,7 +122,7 @@ function App() {
                   phone,
                   datetime: new Date().toISOString(),
                 };
-                const res = await fetch("http://localhost:3000/orders", {
+                const res = await fetch("/orders", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(formData),
