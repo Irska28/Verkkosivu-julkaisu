@@ -61,25 +61,25 @@ function App() {
   };
 
   const getFilteredProducts = () => {
-    let filtered = products;
+  let filtered = products;
 
+  if (selectedCategory !== 'all') {
+    filtered = filtered.filter(
+      (product) =>
+        product.category_id.toString() === selectedCategory.toString()
+    );
+  }
 
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(
-        (product) =>
-          product.category_id.toString() === selectedCategory.toString()
-      );
-    }
+  if (searchTerm.trim() !== "") {
+    const term = searchTerm.toLowerCase();
+    filtered = filtered.filter(product =>
+      product.name.toLowerCase().includes(term)
+    );
+  }
 
-    if (searchTerm.trim() !== "") {
-      const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(term) ||
-        product.description.toLowerCase().includes(term)
-      );
-    }
-    return filtered;
-  };
+  return filtered;
+};
+
 
 
 
