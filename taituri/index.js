@@ -3,10 +3,21 @@ const express = require('express');
 const {supabase} = require('./database.js');
 const cors = require('cors')
 const app = express();
+import path from "path";
   
 app.use(express.json());
 app.use(cors())
 app.use(express.static('dist'))
+
+
+const __dirname = path.resolve();
+
+// Serve the frontend
+app.use(express.static(path.join(__dirname, "taituri/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "taituri/frontend/dist/index.html"));
+});
 
 app.get('/products', async (request, response)  => {
     const {data} = await supabase
