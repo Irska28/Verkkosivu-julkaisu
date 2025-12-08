@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path'); // ADD THIS
 const {supabase} = require('./database.js');
 const cors = require('cors')
 const app = express();
@@ -7,7 +8,6 @@ const app = express();
 app.use(express.json());
 app.use(cors())
 app.use(express.static('dist'))
-
 
 app.get('/products', async (request, response)  => {
     const {data} = await supabase
@@ -53,7 +53,6 @@ app.post('/orders', async (request, response) => {
   try {
     const { session, name, email, phone, datetime } = request.body;
 
-   
     if (!session || !name || !email || !phone) {
       return response.status(400).json({ error: "Missing required fields" });
     }
@@ -70,6 +69,7 @@ app.post('/orders', async (request, response) => {
         }
       ])
       .select();
+      
     if (error) {
       return response.status(400).json({ error: error.message });
     }
@@ -81,8 +81,13 @@ app.post('/orders', async (request, response) => {
   }
 });
 
+app.use((req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+
